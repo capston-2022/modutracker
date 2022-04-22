@@ -11,7 +11,7 @@
 
 
     <TextView
-        android:id="@+id/textView"
+        android:id="@+id/text_date"
         android:layout_width="match_parent"
         android:layout_height="65dp"
         android:gravity="center"
@@ -22,57 +22,40 @@
     //하단 고정
 
     <ScrollView
+        android:id="@+id/main_scroll"
         android:layout_width="match_parent"
-        android:layout_height="551dp"
-        android:layout_weight="1">
-
+        android:layout_height="match_parent">
 
         <LinearLayout
-            android:layout_width="wrap_content"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:orientation="vertical">
+            android:orientation="vertical" >
 
-            ... 기능 구현 ...
+            <EditText
+                android:id="@+id/editText_diary"
+                android:layout_width="match_parent"
+                android:layout_height="150dp"
+                android:gravity="start|top"
+                android:lines="20"
+                android:hint="일기 내용을 입력하세요."
+                android:inputType="textMultiLine"
+                android:privateImeOptions="defaultInputmode=korean"/>
+
+            <Button
+                android:id="@+id/btn_analyze"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="감정분석" />
+
+            <TextView
+                android:id="@+id/text_text"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="TextView" />
 
         </LinearLayout>
     </ScrollView>
 
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="83dp"
-        android:orientation="horizontal"
-        android:gravity="center_horizontal"
-        >
-
-        <ImageButton
-            android:id="@+id/calendar"
-            android:layout_width="45dp"
-            android:layout_height="48dp"
-            android:layout_margin="20dp"
-            android:src="@drawable/ic_baseline_favorite_24"
-
-            />
-
-        <ImageButton
-            android:id="@+id/main"
-            android:layout_width="45dp"
-            android:layout_height="50dp"
-            android:layout_margin="20dp"
-
-            android:src="@drawable/icon"
-
-            />
-
-        <ImageButton
-            android:id="@+id/setting"
-            android:layout_width="45dp"
-            android:layout_height="50dp"
-            android:layout_margin="20dp"
-            android:src="@drawable/ic_baseline_settings_24"
-
-            />
-
-    </LinearLayout>
 </LinearLayout>
 
 
