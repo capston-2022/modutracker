@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".MainActivity"
+    android:orientation="vertical"
+    android:background="#F4F2EA"
+    >
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center_horizontal"
+
+        android:text="당신의 이름을 알려주세요"
+        android:textColor="#603813"
+
+        android:textSize="15dp"
+        tools:layout_editor_absoluteX="34dp"
+        tools:layout_editor_absoluteY="281dp"
+        tools:ignore="MissingConstraints" />
+
+    <EditText
+        android:id="@+id/name"
+        android:layout_width='342dp'
+        android:layout_height="54dp"
+        android:hint="2글자 이상"
+        android:textSize="15dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.492"
+        app:layout_constraintStart_toStartOf="parent"
+        tools:layout_editor_absoluteY="326dp"
+        tools:ignore="MissingConstraints" />
+
+    <Button
+        android:id="@+id/next"
+        android:layout_width='wrap_content'
+        android:layout_height="wrap_content"
+        android:backgroundTint="#F4F2EA"
+        android:text="다음   >"
+        android:textColor="#603813"
+        android:textSize="12dp"
+        tools:layout_editor_absoluteX="307dp"
+        tools:layout_editor_absoluteY="667dp"
+        tools:ignore="MissingConstraints" />
+
+
+</androidx.constraintlayout.widget.ConstraintLayout>

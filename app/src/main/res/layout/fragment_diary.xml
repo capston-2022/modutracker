@@ -1,0 +1,81 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    tools:context=".MainActivity"
+    android:background="#F4F2EA"
+    >
+
+
+    <TextView
+        android:id="@+id/textView"
+        android:layout_width="match_parent"
+        android:layout_height="65dp"
+        android:gravity="center"
+        android:text="날짜"
+        android:textColor="@color/black"
+        android:textSize="20sp" />
+
+    //하단 고정
+
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="551dp"
+        android:layout_weight="1">
+
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+
+            ... 기능 구현 ...
+
+        </LinearLayout>
+    </ScrollView>
+
+
+
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="83dp"
+        android:orientation="horizontal"
+        android:gravity="center_horizontal"
+        >
+
+        <ImageButton
+            android:id="@+id/calendar"
+            android:layout_width="45dp"
+            android:layout_height="48dp"
+            android:layout_margin="20dp"
+            android:src="@drawable/ic_baseline_favorite_24"
+
+            />
+
+        <ImageButton
+            android:id="@+id/main"
+            android:layout_width="45dp"
+            android:layout_height="50dp"
+            android:layout_margin="20dp"
+
+            android:src="@drawable/icon"
+
+            />
+
+        <ImageButton
+            android:id="@+id/setting"
+            android:layout_width="45dp"
+            android:layout_height="50dp"
+            android:layout_margin="20dp"
+            android:src="@drawable/ic_baseline_settings_24"
+
+            />
+
+    </LinearLayout>
+</LinearLayout>
+
+
