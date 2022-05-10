@@ -55,12 +55,8 @@ class TitleActivity : AppCompatActivity() {
             else if (token != null) {
                 Toast.makeText(this, "로그인에 성공하였습니다.", Toast.LENGTH_SHORT).show()
 
-               // CheckMember(token.accessToken)
+                CheckMember(token.accessToken)
                 println(token.accessToken)
-
-                var signInIntent = Intent(this, SetNameActivity::class.java)
-                signInIntent.putExtra("jwt", token.accessToken)
-                startActivity(signInIntent)
             }
         }
         btn_login.setOnClickListener{
@@ -74,15 +70,15 @@ class TitleActivity : AppCompatActivity() {
     }
 
     //회원인지 아닌지 확인
-    /*
-    fun CheckMember(jwt : String) {
+
+    fun CheckMember(accesstoken : String) {
 
         var signInIntent = Intent(this, SetNameActivity::class.java)
         var signUpIntent = Intent(this, MainActivity::class.java)
 
         val url = "http://modutracker.shop/user/member"
         var formbody : RequestBody = FormBody.Builder()
-            .add("jwt", jwt)
+            .add("accesstoken", accesstoken)
             .build()
 
         val request = Request.Builder()
@@ -98,7 +94,8 @@ class TitleActivity : AppCompatActivity() {
                 var jsonObject = JSONObject(response.body?.string())
 
                 //멤버 유무 값, 1이면 멤버 0이면 회원가입 필요
-                var result = jsonObject.getJSONArray("data").getJSONObject(0).getInt("result")
+                var result = jsonObject.getJSONObject("data").getInt("result")
+                var jwt = jsonObject.getJSONObject("data").getString("jwt")
 
                 println("result 값 : $result" );
                 println("jwt 값 : $jwt" );
@@ -123,6 +120,4 @@ class TitleActivity : AppCompatActivity() {
             }
         })
     }
-
-     */
 }
