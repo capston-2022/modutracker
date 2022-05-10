@@ -83,7 +83,7 @@ class MainFragment : Fragment() {
             }
 
             override fun onFailure(call: Call, e: IOException) {
-                Log.d("요청", "Fail")
+                Log.d("요청", e.toString())
             }
         })
     }

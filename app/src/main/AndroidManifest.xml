@@ -5,19 +5,50 @@
     <uses-permission android:name="android.permission.INTERNET" />
 
     <application
+        android:name=".GlobalApplication"
         android:allowBackup="true"
         android:icon="@mipmap/ic_launcher"
         android:label="@string/app_name"
+        android:networkSecurityConfig="@xml/network_security_config"
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/Theme.Modutracker">
         <activity
-            android:name=".MainActivity"
+            android:name=".JoinGroupActivity"
+            android:exported="false" />
+        <activity
+            android:name=".GroupCodeActivity"
+            android:exported="false" />
+        <activity
+            android:name=".SetGroupActivity"
+            android:exported="true" />
+        <activity
+            android:name=".SetNameActivity"
+            android:exported="true" />
+        <activity
+            android:name=".TitleActivity"
             android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
                 <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+        </activity>
+        <activity
+            android:name=".MainActivity"
+            android:exported="true" />
+        <activity
+            android:name="com.kakao.sdk.auth.AuthCodeHandlerActivity"
+            android:exported="true">
+            <intent-filter>
+                <action android:name="android.intent.action.VIEW" />
+
+                <category android:name="android.intent.category.DEFAULT" />
+                <category android:name="android.intent.category.BROWSABLE" />
+
+                <data
+                    android:host="oauth"
+                    android:scheme="kakao3e273895ac7b942c248c30abd5030837" />
             </intent-filter>
         </activity>
     </application>

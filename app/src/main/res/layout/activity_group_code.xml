@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="#F4F2EA"
+    android:gravity="center|center_horizontal|top"
+    android:orientation="vertical"
+    tools:context=".GroupCodeActivity">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_marginTop="250dp"
+        android:layout_weight="1"
+        android:orientation="vertical"
+        android:padding="30dp">
+
+        <TextView
+            android:id="@+id/textView"
+            android:layout_width="285dp"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:fontFamily="@font/notosanskrmedium"
+            android:text="코드를 공유하고 친구들을 초대하세요!"
+            android:textColor="#603813" />
+
+        <TextView
+            android:id="@+id/text_groupCode"
+            android:layout_width="285dp"
+            android:layout_height="89dp"
+            android:layout_gravity="center"
+            android:fontFamily="@font/notosanskrbold"
+            android:text="ABCDE"
+            android:textColor="#603813"
+            android:textSize="40dp" />
+    </LinearLayout>
+
+    <ImageButton
+        android:id="@+id/btn_complete"
+        android:layout_width="wrap_content"
+        android:layout_height="200dp"
+        android:layout_gravity="end"
+        android:layout_weight="1"
+        android:background="@android:color/transparent"
+        android:src="@drawable/complete"
+        tools:ignore="SpeakableTextPresentCheck" />
+</LinearLayout>
