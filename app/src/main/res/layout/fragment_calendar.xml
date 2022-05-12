@@ -1,114 +1,173 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/activity_custom_calendar"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".MainActivity"
+
     android:orientation="vertical"
-    android:background="#F4F2EA"
+    android:backgroundTint="#F4F2EA"
+
+
     >
+
     <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:orientation="vertical">
+        android:layout_height="492dp"
+        android:layout_marginTop="20dp"
+        android:layout_marginBottom="20dp"
+
+        android:orientation="vertical"
+        tools:ignore="MissingConstraints">
+
+
 
 
         <!--헤더-->
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:layout_marginTop="20dp"
+            android:layout_marginBottom="20dp"
+            android:layout_marginLeft="15dp"
+            android:layout_marginRight="15dp"
             android:animateLayoutChanges="true"
-            android:background="#F4F2EA"
+
+
+            android:orientation="horizontal">
+            <ImageButton
+                android:id="@+id/btn_left"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:background="?attr/selectableItemBackgroundBorderless"
+                android:padding="5dp"
+                android:src="@drawable/ic_left"/>
+
+
+            <TextView
+
+                android:id="@+id/text_month"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="2"
+                android:text="5월 2022"
+                android:textAlignment="center"
+                android:textColor="@color/black"
+                android:textSize="25sp"
+
+                />
+            <ImageButton
+                android:id="@+id/btn_right"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:background="?attr/selectableItemBackgroundBorderless"
+                android:padding="5dp"
+                android:src="@drawable/ic_right"/>
+
+        </LinearLayout>
+
+
+        <!--요일-->
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+
             android:orientation="horizontal">
 
             <TextView
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
-                android:onClick="@{(v)->model.startPicker(v)}"
-                android:padding="16dp"
-                android:text="@{model.mTitle}"
-                android:textSize="18dp" />
-
-        </LinearLayout>
-        <!--요일-->
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="20dp"
-            android:background="#eaeae9"
-            android:orientation="horizontal">
+                android:text="SUN"
+                android:textAlignment="center"
+                android:textColor="#FC8C92"
+                android:textSize="19sp"
+                android:textStyle="bold" />
 
             <TextView
                 android:layout_width="0dp"
-                android:layout_height="match_parent"
+                android:layout_height="wrap_content"
                 android:layout_weight="1"
-                android:gravity="center"
-                android:text="sun"
-                android:textSize="9sp" />
-
-            <TextView
-                android:layout_width="0dp"
-                android:layout_height="match_parent"
-                android:layout_weight="1"
-                android:gravity="center"
-                android:text="mon"
+                android:text="MON"
+                android:textAlignment="center"
                 android:textColor="@color/black"
-                android:textSize="9sp" />
+                android:textSize="19sp"
+                android:textStyle="bold" />
 
             <TextView
                 android:layout_width="0dp"
-                android:layout_height="match_parent"
+                android:layout_height="wrap_content"
                 android:layout_weight="1"
-                android:gravity="center"
-                android:text="tue"
+                android:text="TUE"
+                android:textAlignment="center"
                 android:textColor="@color/black"
-                android:textSize="9sp" />
+                android:textSize="19sp"
+                android:textStyle="bold" />
 
             <TextView
                 android:layout_width="0dp"
-                android:layout_height="match_parent"
+                android:layout_height="wrap_content"
                 android:layout_weight="1"
-                android:gravity="center"
-                android:text="wed"
+                android:text="WED"
+                android:textAlignment="center"
                 android:textColor="@color/black"
-                android:textSize="9sp" />
+                android:textSize="19sp"
+                android:textStyle="bold" />
 
             <TextView
                 android:layout_width="0dp"
-                android:layout_height="match_parent"
+                android:layout_height="wrap_content"
                 android:layout_weight="1"
-                android:gravity="center"
-                android:text="thu"
+                android:text="THU"
+                android:textAlignment="center"
                 android:textColor="@color/black"
-                android:textSize="9sp" />
+                android:textSize="19sp"
+                android:textStyle="bold" />
 
             <TextView
                 android:layout_width="0dp"
-                android:layout_height="match_parent"
+                android:layout_height="wrap_content"
                 android:layout_weight="1"
-                android:gravity="center"
-                android:text="fri"
+                android:text="FRI"
+                android:textAlignment="center"
                 android:textColor="@color/black"
-                android:textSize="9sp" />
+                android:textSize="19sp"
+                android:textStyle="bold" />
 
             <TextView
                 android:layout_width="0dp"
-                android:layout_height="match_parent"
+                android:layout_height="wrap_content"
                 android:layout_weight="1"
-                android:gravity="center"
-
-                android:text="sat"
-                android:textSize="9sp" />
+                android:text="SAT"
+                android:textAlignment="center"
+                android:textColor="#19B7F6"
+                android:textSize="19sp"
+                android:textStyle="bold" />
         </LinearLayout>
         <!--달력뷰-->
+
+
         <androidx.recyclerview.widget.RecyclerView
-            android:id="@+id/calendar"
+            android:id="@+id/recycler_View"
             android:layout_width="match_parent"
-            android:layout_height="match_parent" />
+            android:layout_height="392dp"
+            android:orientation="vertical"
+
+            app:layoutManager="androidx.recyclerview.widget.GridLayoutManager"
+            app:spanCount="7" />
+
+
     </LinearLayout>
 
 
 
+
+
+
+
+
 </androidx.constraintlayout.widget.ConstraintLayout>
+
+

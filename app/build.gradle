@@ -59,6 +59,12 @@ android {
         exclude 'META-INF/LGPL2.1'
 
     }
+    buildFeatures{
+        viewBinding true
+    }
+    buildFeatures{
+        dataBinding = true
+    }
 }
 
 dependencies {
