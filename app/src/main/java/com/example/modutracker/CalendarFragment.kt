@@ -10,7 +10,7 @@ import android.widget.TextView
 import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.GridLayoutManager
 import com.example.modutracker.databinding.FragmentCalendarBinding
-import com.example.modutracker.databinding.FragmentInitialBinding
+
 import java.text.SimpleDateFormat
 import java.util.*
 
