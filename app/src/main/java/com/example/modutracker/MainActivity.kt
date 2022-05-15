@@ -19,8 +19,21 @@ class MainActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(binding.root)
+
+        //jwt 받아오기
+        var getIntent = getIntent()
+        var jwt = getIntent.getStringExtra("jwt")
+
+        //Fragment에 Bundle로 전달
+        /*
+        val bundle = Bundle()
+        bundle.putString("jwt", jwt)
+        DiaryFragment(jwt.toString()).arguments = bundle
+
+         */
+
 //viewPager
-        val list= listOf(CalendarFragment(),DiaryFragment(),SettingFragment())
+        val list= listOf(CalendarFragment(),DiaryFragment(jwt.toString()),SettingFragment())
 
         val pagerAdapter=FragmentPagerAdapter(list,this)
 
@@ -31,6 +44,7 @@ class MainActivity : AppCompatActivity() {
             tab.text=titles.get(position)
         }.attach()
     }
+
 }
 
 

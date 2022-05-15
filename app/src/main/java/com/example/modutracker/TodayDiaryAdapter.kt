@@ -14,7 +14,7 @@ RecyclerView.Adapter<TodayDiaryAdapter.ViewHolder>() {
     inner class ViewHolder(private val binding : ItemTodaydiaryBinding) : RecyclerView.ViewHolder(binding.root) {
         fun bind(diaryData : TodayData){
             binding.nameText.text = diaryData.name
-            var emotionidx = diaryData.emotionIdx
+            var emotionidx = diaryData.emotionidx
             binding.contentText.text = diaryData.content
         }
     }
