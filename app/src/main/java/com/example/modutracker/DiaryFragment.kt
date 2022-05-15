@@ -76,8 +76,16 @@ class DiaryFragment(private var jwt : String):Fragment() {
                     }
                     dlg.start("")
                      */
+                    CoroutineScope(IO).async {
+                        AddDiary(jwt)
+                    }.await()
 
-                    AddDiary(jwt)
+                    CoroutineScope(IO).async {
+                        getDiaryData(jwt)
+                    }.await()
+
+                    initRecyclerView()
+
                 }
             }
         }
@@ -134,22 +142,16 @@ class DiaryFragment(private var jwt : String):Fragment() {
             .build()
 
         val request = Request.Builder()
+            .addHeader("Authorization",jwt)
             .url(url)
             .post(formbody)
             .build()
 
         val client = OkHttpClient()
 
-        client.newCall(request).enqueue(object : Callback {
-            override fun onResponse(call: Call, response: Response) {
-                Log.d("요청", "Success")
-            }
+        val response : Response = client.newCall(request).execute()
 
-            override fun onFailure(call: Call, e: IOException) {
-                Log.d("요청", e.toString())
-                e.printStackTrace()
-            }
-        })
+        Log.d("데이터 입력", response.body?.string().toString())
     }
 
     //일기 조회
