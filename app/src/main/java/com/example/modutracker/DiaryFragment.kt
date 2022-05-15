@@ -10,9 +10,8 @@ import android.view.ViewGroup
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.modutracker.databinding.FragmentMainBinding
 import com.example.modutracker.dialog.AnalyzeDialog
-import com.google.gson.JsonObject
+import kotlinx.android.synthetic.main.fragment_main.*
 import kotlinx.coroutines.CoroutineScope
-import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.Dispatchers.IO
 import kotlinx.coroutines.Dispatchers.Main
 import kotlinx.coroutines.async
@@ -20,7 +19,6 @@ import kotlinx.coroutines.launch
 import okhttp3.*
 import okhttp3.MediaType.Companion.toMediaType
 import okhttp3.RequestBody.Companion.toRequestBody
-import org.json.JSONArray
 import org.json.JSONObject
 import java.io.IOException
 import java.text.SimpleDateFormat
@@ -28,8 +26,6 @@ import java.text.SimpleDateFormat
 class DiaryFragment(private var jwt : String):Fragment() {
     private var _binding : FragmentMainBinding? = null
     private val binding get() = _binding!!
-
-    private lateinit var adapter: TodayDiaryAdapter
 
     //일기 조회 받아올 리스트
     val diaryData = mutableListOf<TodayData>()
@@ -73,11 +69,15 @@ class DiaryFragment(private var jwt : String):Fragment() {
                     }.await()
 
                     //Dialog
+                    /*
                     val dlg = AnalyzeDialog(requireContext())
                     dlg.setOnOKClickedListener {
 
                     }
                     dlg.start("")
+                     */
+
+                    AddDiary(jwt)
                 }
             }
         }
@@ -125,8 +125,31 @@ class DiaryFragment(private var jwt : String):Fragment() {
     }
 
     //일기 데이터베이스에 입력
-    fun AddDiary(){
+    fun AddDiary(jwt : String){
+        val url = "http://modutracker.shop/diary"
 
+        var formbody : RequestBody = FormBody.Builder()
+            .add("content", editText_diary.text.toString())
+            .add("emotionidx", "1")
+            .build()
+
+        val request = Request.Builder()
+            .url(url)
+            .post(formbody)
+            .build()
+
+        val client = OkHttpClient()
+
+        client.newCall(request).enqueue(object : Callback {
+            override fun onResponse(call: Call, response: Response) {
+                Log.d("요청", "Success")
+            }
+
+            override fun onFailure(call: Call, e: IOException) {
+                Log.d("요청", e.toString())
+                e.printStackTrace()
+            }
+        })
     }
 
     //일기 조회
