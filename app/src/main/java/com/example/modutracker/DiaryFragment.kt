@@ -62,12 +62,16 @@ class DiaryFragment(private var jwt : String):Fragment() {
         btnAnalyze.setOnClickListener{
             var diary = textdiary?.text.toString()
 
+            //데이터 초기화
+            diaryData.clear()
+
             if(diary != null) {
                 CoroutineScope(Main).launch {
                     CoroutineScope(IO).async {
                         //AnalyzeEmotion(diary)
                     }.await()
 
+                    SetEmotionColor();
                     //Dialog
                     /*
                     val dlg = AnalyzeDialog(requireContext())
@@ -76,6 +80,7 @@ class DiaryFragment(private var jwt : String):Fragment() {
                     }
                     dlg.start("")
                      */
+
                     CoroutineScope(IO).async {
                         AddDiary(jwt)
                     }.await()
@@ -196,6 +201,9 @@ class DiaryFragment(private var jwt : String):Fragment() {
 
     }
 
+    private fun SetEmotionColor() {
+
+    }
     override fun onDestroyView() {
         super.onDestroyView()
         _binding = null

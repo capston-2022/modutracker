@@ -21,20 +21,23 @@
             android:layout_width="60dp"
             android:layout_height="60dp"
             android:padding="10dp"
-            app:srcCompat="@drawable/ic_baseline_favorite_24" />
+            app:srcCompat="@drawable/emotionbox" />
 
         <TextView
             android:id="@+id/name_text"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center"
+            android:fontFamily="@font/notosanskrbold"
             android:text="닉네임" />
     </LinearLayout>
 
     <TextView
         android:id="@+id/content_text"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="match_parent"
+        android:fontFamily="@font/notosanskrmedium"
+        android:inputType="textMultiLine"
         android:text="일기 내용" />
 
 </LinearLayout>
