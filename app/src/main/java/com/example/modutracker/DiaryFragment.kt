@@ -65,32 +65,31 @@ class DiaryFragment(private var jwt : String):Fragment() {
             //데이터 초기화
             diaryData.clear()
 
-            if(diary != null) {
+            if(diary != "") {
                 CoroutineScope(Main).launch {
                     CoroutineScope(IO).async {
-                        //AnalyzeEmotion(diary)
+                        AnalyzeEmotion(diary)
                     }.await()
 
                     SetEmotionColor();
                     //Dialog
-                    /*
+
                     val dlg = AnalyzeDialog(requireContext())
                     dlg.setOnOKClickedListener {
+                        CoroutineScope(Main).launch {
+                            CoroutineScope(IO).async {
+                                AddDiary(jwt)
+                                textdiary.text.clear()
+                            }.await()
 
+                            CoroutineScope(IO).async {
+                                getDiaryData(jwt)
+                            }.await()
+
+                            initRecyclerView()
+                        }
                     }
                     dlg.start("")
-                     */
-
-                    CoroutineScope(IO).async {
-                        AddDiary(jwt)
-                    }.await()
-
-                    CoroutineScope(IO).async {
-                        getDiaryData(jwt)
-                    }.await()
-
-                    initRecyclerView()
-
                 }
             }
         }
@@ -118,23 +117,16 @@ class DiaryFragment(private var jwt : String):Fragment() {
 
         val client = OkHttpClient()
 
-        client.newCall(request).enqueue(object : Callback {
-            override fun onResponse(call: Call, response: Response) {
-                Log.d("요청", "Success")
+        val response : Response = client.newCall(request).execute()
 
-                var jsonObject = JSONObject(response.body?.string())
-                var sentiment = jsonObject.getJSONObject("document").get("sentiment") as String
-                var neutral = jsonObject.getJSONObject("document").getJSONObject("confidence").get("neutral") as Double
-                var positive = jsonObject.getJSONObject("document").getJSONObject("confidence").get("positive") as Double
-                var negative = jsonObject.getJSONObject("document").getJSONObject("confidence").get("negative") as Double
+        var jsonObject = JSONObject(response.body?.string())
+        var sentiment = jsonObject.getJSONObject("document").get("sentiment") as String
+        var neutral = jsonObject.getJSONObject("document").getJSONObject("confidence").get("neutral") as Double
+        var positive = jsonObject.getJSONObject("document").getJSONObject("confidence").get("positive") as Double
+        var negative = jsonObject.getJSONObject("document").getJSONObject("confidence").get("negative") as Double
 
-                binding.textText.text = sentiment
-            }
+        binding.textText.text = sentiment
 
-            override fun onFailure(call: Call, e: IOException) {
-                Log.d("요청", e.toString())
-            }
-        })
     }
 
     //일기 데이터베이스에 입력
@@ -204,6 +196,7 @@ class DiaryFragment(private var jwt : String):Fragment() {
     private fun SetEmotionColor() {
 
     }
+
     override fun onDestroyView() {
         super.onDestroyView()
         _binding = null
