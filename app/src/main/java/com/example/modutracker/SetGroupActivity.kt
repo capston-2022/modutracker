@@ -57,7 +57,6 @@ class SetGroupActivity : AppCompatActivity() {
 
         var formbody : RequestBody = FormBody.Builder()
             .add("groupcode", code)
-            .add("leader", name)
             .build()
 
         val request = Request.Builder()
