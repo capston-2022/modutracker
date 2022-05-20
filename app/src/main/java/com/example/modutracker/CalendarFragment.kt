@@ -1,78 +1,98 @@
 package com.example.modutracker
-
 import android.os.Bundle
 import android.util.Log
+import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.GridLayout
-import android.widget.TextView
-import androidx.fragment.app.Fragment
-import androidx.recyclerview.widget.GridLayoutManager
+import androidx.recyclerview.widget.LinearLayoutManager
+import com.example.calendarview.MaxDecorator
+import com.example.calendarview.SaturdayDecorateor
+import com.example.calendarview.SundayDecorateor
 import com.example.modutracker.databinding.FragmentCalendarBinding
 
+import com.prolificinteractive.materialcalendarview.CalendarDay
+import com.prolificinteractive.materialcalendarview.MaterialCalendarView
+import org.json.JSONArray
+import org.json.JSONObject
+import java.io.IOException
 import java.text.SimpleDateFormat
 import java.util.*
 
-
-class CalendarFragment:Fragment(){
-
+class CalendarFragment:Fragment() {
     private var _binding : FragmentCalendarBinding? = null
-    private val binding get() = _binding
+    private val binding get() = _binding!!
 
-    private  var calendarAdapter:CalendarAdapter? = null
-    private lateinit var textMonth:TextView
+    //private lateinit var adapter: TodayDiaryAdapter
 
-    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?):
-            View? {
-        //val view=inflater.inflate(com.example.modutracker.R.layout.fragment_calendar, container,false)
+    //일기 조회 받아올 리스트
+    //val diaryData = mutableListOf<TodayData>()
 
+    override fun onCreateView(
 
-        val binding:FragmentCalendarBinding=FragmentCalendarBinding.inflate(inflater,container,false)
-        val calendarAdapter=CalendarAdapter(this)
-        val calendar=Calendar.getInstance()
+        inflater: LayoutInflater, container: ViewGroup?,
+        savedInstanceState: Bundle?
+    ): View? {
 
-//recycler 안에 GRID!
-        binding.recyclerView.layoutManager=GridLayoutManager(view?.context ,7)
-        binding.recyclerView.adapter=calendarAdapter
-        binding.textMonth.setText(SimpleDateFormat("yyyy.MM").format(calendar.time))
-        binding.btnLeft.setOnClickListener{
-            calendar.set(Calendar.MONTH,calendar.get(Calendar.MONTH)-1)
-            calendarShow(calendar)
+        _binding = FragmentCalendarBinding.inflate(inflater, container, false)
 
-        }
-        binding.btnRight.setOnClickListener {
-            calendar.set(Calendar.MONTH,calendar.get(Calendar.MONTH)+1)
-            calendarShow(calendar)
-        }
-
-        calendarShow(calendar)
-        //Log.d("hhh",firstDay.toString()+"/"+lastDay.toShort())
+        calendar()
         return binding.root
+
     }
 
-    private fun calendarShow(calendar:Calendar){
+    fun calendar(){
+        val materialCalendar: MaterialCalendarView = binding.calendar
+        //findViewById(R.id.calendar)
 
-        val firstDay=calendar.getActualMinimum(Calendar.DAY_OF_MONTH)
-        val lastDay=calendar.getActualMaximum(Calendar.DAY_OF_MONTH)
-        val arrayDay=ArrayList<Long>()
-        for(i:Int in firstDay..lastDay){
-            calendar.set(Calendar.DAY_OF_MONTH,i)
-            val dayOfWeek=calendar.get(Calendar.DAY_OF_WEEK)
-            if(i==1&&dayOfWeek>1){
-                for(j:Int in 1..dayOfWeek-1){
-                    val lastCalendar=Calendar.getInstance()
-                    lastCalendar.set(Calendar.MONTH,calendar.get(Calendar.MONTH)-1)
-                    val lastMonth_lastDay=
-                        (lastCalendar.getActualMaximum(Calendar.DAY_OF_MONTH)-(j-1))
-                    lastCalendar.add(Calendar.DAY_OF_MONTH,lastMonth_lastDay)
-                    arrayDay.add(lastCalendar.timeInMillis)
-                    Collections.sort(arrayDay)
-                }
-            }
-            Log.d("hhh",i.toString())
-            arrayDay.add(calendar.timeInMillis)
-        }
-        calendarAdapter?.setList(arrayDay,calendar.get(Calendar.MONTH))
+        var startTimeCalendar = Calendar.getInstance()
+        var endTimeCalendar = Calendar.getInstance()
+
+        val currentYear = startTimeCalendar.get(Calendar.YEAR)
+        val currentMonth =startTimeCalendar.get(Calendar.MONTH)
+        val currentDay =startTimeCalendar.get(Calendar.DATE)
+
+        //달력 설정
+
+        materialCalendar.state().edit()
+            .setFirstDayOfWeek(Calendar.SUNDAY) //일 월 화 수 목 금 토
+            .setMaximumDate(CalendarDay.from(currentYear,currentMonth,31))
+            .commit()
+
+        //최대날짜설정
+        val enClendarDay = CalendarDay(
+            endTimeCalendar.get(Calendar.YEAR),
+            endTimeCalendar.get(Calendar.MONTH),
+            endTimeCalendar.get(Calendar.DATE)
+        )
+
+        val maxDecorator = MaxDecorator(enClendarDay)
+
+        //주말 색상 다르게 표시
+        val saturdayDecorateor = SaturdayDecorateor()
+        val sundayDecorateor = SundayDecorateor()
+
+
+//        lateinit var widget: MaterialCalendarView
+//        val activity = getActivity() as MainActivity
+//        widget = view.findViewById(R.id.calendarView) as MaterialCalendarView
+
+
+        //날짜 배경에 이미지 삽입
+//        val mydate=CalendarDay.from(2022,  5, 15)
+//        val backDecorator = BackDecorator(activity,mydate)
+
+
+        materialCalendar.addDecorators(
+            maxDecorator,
+            saturdayDecorateor,
+            sundayDecorateor,
+           // backDecorator
+        )
+    }
+
+    override fun onDestroyView() {
+        super.onDestroyView()
+        _binding = null
     }
 }

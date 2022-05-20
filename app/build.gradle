@@ -95,4 +95,7 @@ dependencies {
     //kakao login
     implementation "com.kakao.sdk:v2-user:2.0.1"
 
+    //material calendar
+    implementation 'com.prolificinteractive:material-calendarview:1.4.3'
+
 }
