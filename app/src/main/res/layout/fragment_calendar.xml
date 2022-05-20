@@ -1,173 +1,76 @@
 <?xml version="1.0" encoding="utf-8"?>
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
-
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-    android:id="@+id/activity_custom_calendar"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-
-    android:orientation="vertical"
+    android:background="#F4F2EA"
     android:backgroundTint="#F4F2EA"
+    android:foregroundTint="#E1C0C0"
+    tools:context=".CalendarFragment">
+
+    <com.prolificinteractive.materialcalendarview.MaterialCalendarView
+        android:id="@+id/calendar"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerVertical="true"
+        android:background="#F4F2EA"
+
+        android:backgroundTint="#F4F2EA"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toStartOf="parent"
+        app:mcv_selectionColor="@color/purple_200"
+        app:mcv_showOtherDates="defaults"
+
+        tools:layout_editor_absoluteY="64dp"
+        tools:ignore="MissingConstraints" />
 
 
-    >
+    <TextView
+        android:id="@+id/today"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
 
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="492dp"
-        android:layout_marginTop="20dp"
-        android:layout_marginBottom="20dp"
+        android:layout_marginStart="32dp"
+        android:text="5월 23일"
+        android:textSize="20sp"
 
-        android:orientation="vertical"
-        tools:ignore="MissingConstraints">
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/calendar" />
 
+    <Button
+        android:id="@+id/btn_diary"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="1dp"
 
+        android:backgroundTint="#EDBBBB"
+        android:text="Diary"
 
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.919"
+        app:layout_constraintStart_toEndOf="@+id/today"
+        app:layout_constraintTop_toBottomOf="@+id/calendar"
+        app:layout_constraintVertical_bias="0.0"
+        tools:ignore="DuplicateIds,MissingConstraints" />
 
-        <!--헤더-->
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="20dp"
-            android:layout_marginBottom="20dp"
-            android:layout_marginLeft="15dp"
-            android:layout_marginRight="15dp"
-            android:animateLayoutChanges="true"
+    <ListView
+        android:layout_width="417dp"
+        android:layout_height="149dp"
 
-
-            android:orientation="horizontal">
-            <ImageButton
-                android:id="@+id/btn_left"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:background="?attr/selectableItemBackgroundBorderless"
-                android:padding="5dp"
-                android:src="@drawable/ic_left"/>
-
-
-            <TextView
-
-                android:id="@+id/text_month"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_weight="2"
-                android:text="5월 2022"
-                android:textAlignment="center"
-                android:textColor="@color/black"
-                android:textSize="25sp"
-
-                />
-            <ImageButton
-                android:id="@+id/btn_right"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:background="?attr/selectableItemBackgroundBorderless"
-                android:padding="5dp"
-                android:src="@drawable/ic_right"/>
-
-        </LinearLayout>
+        android:backgroundTint="#EDDADA"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent">
 
 
-        <!--요일-->
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-
-            android:orientation="horizontal">
-
-            <TextView
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:text="SUN"
-                android:textAlignment="center"
-                android:textColor="#FC8C92"
-                android:textSize="19sp"
-                android:textStyle="bold" />
-
-            <TextView
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:text="MON"
-                android:textAlignment="center"
-                android:textColor="@color/black"
-                android:textSize="19sp"
-                android:textStyle="bold" />
-
-            <TextView
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:text="TUE"
-                android:textAlignment="center"
-                android:textColor="@color/black"
-                android:textSize="19sp"
-                android:textStyle="bold" />
-
-            <TextView
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:text="WED"
-                android:textAlignment="center"
-                android:textColor="@color/black"
-                android:textSize="19sp"
-                android:textStyle="bold" />
-
-            <TextView
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:text="THU"
-                android:textAlignment="center"
-                android:textColor="@color/black"
-                android:textSize="19sp"
-                android:textStyle="bold" />
-
-            <TextView
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:text="FRI"
-                android:textAlignment="center"
-                android:textColor="@color/black"
-                android:textSize="19sp"
-                android:textStyle="bold" />
-
-            <TextView
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:text="SAT"
-                android:textAlignment="center"
-                android:textColor="#19B7F6"
-                android:textSize="19sp"
-                android:textStyle="bold" />
-        </LinearLayout>
-        <!--달력뷰-->
-
-
-        <androidx.recyclerview.widget.RecyclerView
-            android:id="@+id/recycler_View"
-            android:layout_width="match_parent"
-            android:layout_height="392dp"
-            android:orientation="vertical"
-
-            app:layoutManager="androidx.recyclerview.widget.GridLayoutManager"
-            app:spanCount="7" />
-
-
-    </LinearLayout>
+    </ListView>
 
 
 
-
-
-
+    <!--날짜 전체 다 보여주기-->
+    <!--        app:mcv_showOtherDates="all"-->
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>
-
-
