@@ -1,10 +1,12 @@
 package com.example.modutracker
 
+import android.app.Activity
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
+import com.example.calendarview.BackDecorator
 import com.example.calendarview.MaxDecorator
 import com.example.calendarview.SaturdayDecorateor
 import com.example.calendarview.SundayDecorateor
@@ -51,7 +53,7 @@ class CalendarFragment: Fragment() {
 
         materialCalendar.state().edit()
             .setFirstDayOfWeek(Calendar.SUNDAY) //일 월 화 수 목 금 토
-            .setMaximumDate(CalendarDay.from(currentYear, currentMonth, 31))
+            .setMaximumDate(CalendarDay.from(currentYear,currentMonth,31))
             .commit()
 
         //최대날짜설정
@@ -66,20 +68,30 @@ class CalendarFragment: Fragment() {
         val sundayDecorateor = SundayDecorateor()
 
 
-        //캘린더 배경 이미지 삽입(아직 미완)
-//        lateinit var widget: MaterialCalendarView
-//        val activity = getActivity() as MainActivity
-//        widget = view.findViewById(R.id.calendarView) as MaterialCalendarView
+        lateinit var widget: MaterialCalendarView
+        val activity = getActivity() as Activity
+        widget = binding.calendar as MaterialCalendarView
 
-//        val mydate= CalendarDay.from(2022,  5, 15)
-//        val backDecorator = BackDecorator(activity,mydate)
+        // val mydate=CalendarDay.from(2022,  5,18) // year, month, date
 
+        //val backDecorator = BackDecorator(activity,mydate)
 
+        //뒤에 배경 넣을 날짜 리스트(1달 이전의 날짜에 표시 됨..)
+        val calList = ArrayList<CalendarDay>()
+        calList.add(CalendarDay.from(2022, 4, 2))
+        calList.add(CalendarDay.from(2022, 4, 11))
+        calList.add(CalendarDay.from(2022, 4, 12))
+        calList.add(CalendarDay.from(2022, 4, 13))
+        for (calDay in calList){
+            // materialCalendar.addDecorators(backDecorator)
+            widget.addDecorators(BackDecorator(activity,calDay))
+        }
+        //widget.addDecorators(BackDecorator(activity,mydate))
         materialCalendar.addDecorators(
             maxDecorator,
             saturdayDecorateor,
-            sundayDecorateor,
-            // backDecorator
+            sundayDecorateor
+            //backDecorator
         )
     }
 
