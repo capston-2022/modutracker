@@ -30,7 +30,8 @@
             android:layout_height="56dp"
             android:ems="10"
             android:inputType="textPersonName"
-            android:textSize="16sp" />
+            android:textSize="16sp"
+            android:hint="그룹코드"/>
     </LinearLayout>
     <ImageButton
         android:id="@+id/btn_complete"

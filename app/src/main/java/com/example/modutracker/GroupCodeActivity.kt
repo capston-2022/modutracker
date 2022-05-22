@@ -23,4 +23,6 @@ class GroupCodeActivity : AppCompatActivity() {
             startActivity(intent)
         }
     }
+
+
 }
