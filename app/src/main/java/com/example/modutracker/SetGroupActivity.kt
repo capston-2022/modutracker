@@ -37,6 +37,7 @@ class SetGroupActivity : AppCompatActivity() {
         btn_joinGroup.setOnClickListener {
             var intent = Intent(this, JoinGroupActivity::class.java)
             intent.putExtra("jwt", jwt)
+            intent.putExtra("name", name)
             startActivity(intent)
         }
     }
@@ -88,11 +89,11 @@ class SetGroupActivity : AppCompatActivity() {
         val url = "http://modutracker.shop/user"
 
         var formbody : RequestBody = FormBody.Builder()
-            .add("accesstoken", jwt)
             .add("name", name)
             .build()
 
         val request = Request.Builder()
+            .addHeader("Authorization",jwt)
             .url(url)
             .post(formbody)
             .build()
