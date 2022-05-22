@@ -69,7 +69,7 @@ class SetGroupActivity : AppCompatActivity() {
 
         client.newCall(request).enqueue(object : Callback {
             override fun onResponse(call: Call, response: Response) {
-                Log.d("요청", "Success")
+                Log.d("요청", "Add group Success")
 
                 SignUp(jwt, name, code)
             }
@@ -102,7 +102,7 @@ class SetGroupActivity : AppCompatActivity() {
 
         client.newCall(request).enqueue(object : Callback {
             override fun onResponse(call: Call, response: Response) {
-                Log.d("요청", "Success")
+                Log.d("요청", "Sign up Success")
 
                 intent.putExtra("jwt", jwt)
                 intent.putExtra("code", code)

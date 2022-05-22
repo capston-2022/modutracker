@@ -19,22 +19,40 @@
 
         <TextView
             android:id="@+id/textView"
-            android:layout_width="285dp"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_gravity="center"
             android:fontFamily="@font/notosanskrmedium"
             android:text="코드를 공유하고 친구들을 초대하세요!"
             android:textColor="#603813" />
 
-        <TextView
-            android:id="@+id/text_groupCode"
-            android:layout_width="285dp"
-            android:layout_height="89dp"
-            android:layout_gravity="center"
-            android:fontFamily="@font/notosanskrbold"
-            android:text="ABCDE"
-            android:textColor="#603813"
-            android:textSize="40dp" />
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal">
+
+            <TextView
+                android:id="@+id/text_groupCode"
+                android:layout_width="wrap_content"
+                android:layout_height="89dp"
+                android:layout_gravity="center"
+                android:fontFamily="@font/notosanskrbold"
+                android:text="ABCDE"
+                android:textColor="#603813"
+                android:textSize="40dp" />
+
+            <ImageButton
+                android:id="@+id/btn_copy"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                app:srcCompat="@drawable/copy"
+                android:layout_gravity="bottom"
+                android:paddingBottom="15dp"
+                android:paddingLeft="5dp"
+                android:background="@android:color/transparent"
+                app:tint="#603813" />
+        </LinearLayout>
+
     </LinearLayout>
 
     <ImageButton
