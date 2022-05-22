@@ -96,4 +96,7 @@ dependencies {
     implementation "com.kakao.sdk:v2-user:2.0.1"
 
     implementation "org.jetbrains.kotlinx:kotlinx-coroutines-android:1.5.2"
+
+    //material calendar
+    implementation 'com.prolificinteractive:material-calendarview:1.4.3'
 }

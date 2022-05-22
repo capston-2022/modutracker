@@ -1,4 +1,5 @@
 package com.example.modutracker
+import android.app.Activity
 import android.os.Bundle
 import android.util.Log
 import androidx.fragment.app.Fragment
@@ -18,7 +19,6 @@ import org.json.JSONObject
 import java.io.IOException
 import java.text.SimpleDateFormat
 import java.util.*
-
 class CalendarFragment:Fragment() {
     private var _binding : FragmentCalendarBinding? = null
     private val binding get() = _binding!!
@@ -67,27 +67,34 @@ class CalendarFragment:Fragment() {
         )
 
         val maxDecorator = MaxDecorator(enClendarDay)
-
-        //주말 색상 다르게 표시
         val saturdayDecorateor = SaturdayDecorateor()
         val sundayDecorateor = SundayDecorateor()
 
 
-//        lateinit var widget: MaterialCalendarView
-//        val activity = getActivity() as MainActivity
-//        widget = view.findViewById(R.id.calendarView) as MaterialCalendarView
+        lateinit var widget: MaterialCalendarView
+        val activity = getActivity() as Activity
+        widget = binding.calendar as MaterialCalendarView
 
+        // val mydate=CalendarDay.from(2022,  5,18) // year, month, date
 
-        //날짜 배경에 이미지 삽입
-//        val mydate=CalendarDay.from(2022,  5, 15)
-//        val backDecorator = BackDecorator(activity,mydate)
+        //val backDecorator = BackDecorator(activity,mydate)
 
-
+        //뒤에 배경 넣을 날짜 리스트(1달 이전의 날짜에 표시 됨.. 이건 수정 해야할 것 같아요..)
+        val calList = ArrayList<CalendarDay>()
+        calList.add(CalendarDay.from(2022, 4, 2))
+        calList.add(CalendarDay.from(2022, 4, 11))
+        calList.add(CalendarDay.from(2022, 4, 12))
+        calList.add(CalendarDay.from(2022, 4, 13))
+        for (calDay in calList){
+            // materialCalendar.addDecorators(backDecorator)
+            widget.addDecorators(BackDecorator(activity,calDay))
+        }
+        //widget.addDecorators(BackDecorator(activity,mydate))
         materialCalendar.addDecorators(
             maxDecorator,
             saturdayDecorateor,
-            sundayDecorateor,
-           // backDecorator
+            sundayDecorateor
+            //backDecorator
         )
     }
 
