@@ -8,7 +8,6 @@ import android.graphics.Bitmap
 import android.graphics.Color
 import android.graphics.drawable.BitmapDrawable
 import android.graphics.drawable.Drawable
-import androidx.appcompat.content.res.AppCompatResources.getDrawable
 import androidx.core.content.ContextCompat
 import com.prolificinteractive.materialcalendarview.CalendarDay
 import com.prolificinteractive.materialcalendarview.DayViewDecorator
@@ -30,15 +29,15 @@ class BackDecorator (context : Activity, currentDay: CalendarDay) : DayViewDecor
         view.setBackgroundDrawable(image)
     }
 
-    fun EmotionImage() : Drawable{
+    fun EmotionImage(): Drawable {
         //이미지 크기
         val width = 256
         val height = 256
 
-        val bitmap : Bitmap = Bitmap.createBitmap(width, height, Bitmap.Config.ARGB_8888)
+        val bitmap: Bitmap = Bitmap.createBitmap(width, height, Bitmap.Config.ARGB_8888)
 
-        for(i in 0 until width){
-            for(j in 0 until height){
+        for (i in 0 until width) {
+            for (j in 0 until height) {
                 //그림 크기
                 val margin = 40
                 val imgWidth = (width - margin * 2).toDouble()
@@ -54,13 +53,9 @@ class BackDecorator (context : Activity, currentDay: CalendarDay) : DayViewDecor
                 val sideY1 = (center1 - 1 - j)
                 val distance1 = sideX1.pow(2) + sideY1.pow(2) //원의 중심과 점 사이의 거리의 제곱
                 var color = 0
-                if(distance1 <= (radius.pow(2))) //거리가 반지름의 길이보다 작으면(원 안에 있는 점이면)
+                if (distance1 <= (radius.pow(2))) //거리가 반지름의 길이보다 작으면(원 안에 있는 점이면)
                 {
-                    color = Color.BLUE
-                }
-                else //거리가 반지름의 길이보다 크면(원 밖의 점이면)
-                {
-                   // color = Color.alpha(Color.TRANSPARENT)
+                    color = Color.parseColor("#FFACAC")
                 }
 
                 //원2
@@ -70,13 +65,9 @@ class BackDecorator (context : Activity, currentDay: CalendarDay) : DayViewDecor
                 val sideX2 = (centerX2 - 1 - i)
                 val sideY2 = (centerY2 - 1 - j)
                 val distance2 = sideX2.pow(2) + sideY2.pow(2) //원의 중심과 점 사이의 거리의 제곱
-                if(distance2 <= (radius.pow(2))) //거리가 반지름의 길이보다 작으면(원 안에 있는 점이면)
+                if (distance2 <= (radius.pow(2))) //거리가 반지름의 길이보다 작으면(원 안에 있는 점이면)
                 {
-                    color = Color.MAGENTA
-                }
-                else //거리가 반지름의 길이보다 크면(원 밖의 점이면)
-                {
-                   // color = Color.alpha(Color.TRANSPARENT)
+                    color = Color.parseColor("#FCEDB7")
                 }
 
                 //원4
@@ -86,9 +77,9 @@ class BackDecorator (context : Activity, currentDay: CalendarDay) : DayViewDecor
                 val sideX4 = (centerX4 - 1 - i)
                 val sideY4 = (centerY4 - 1 - j)
                 val distance4 = sideX4.pow(2) + sideY4.pow(2) //원의 중심과 점 사이의 거리의 제곱
-                if(distance4 <= (radius.pow(2))) //거리가 반지름의 길이보다 작으면(원 안에 있는 점이면)
+                if (distance4 <= (radius.pow(2))) //거리가 반지름의 길이보다 작으면(원 안에 있는 점이면)
                 {
-                    color = Color.GREEN
+                    color = Color.parseColor("#DBE7FD")
                 }
 
                 //원3
@@ -98,22 +89,20 @@ class BackDecorator (context : Activity, currentDay: CalendarDay) : DayViewDecor
                 val sideX3 = (centerX3 - 1 - i)
                 val sideY3 = (centerY3 - 1 - j)
                 val distance3 = sideX3.pow(2) + sideY3.pow(2) //원의 중심과 점 사이의 거리의 제곱
-                if(distance3 <= (radius.pow(2))) //거리가 반지름의 길이보다 작으면(원 안에 있는 점이면)
+                if (distance3 <= (radius.pow(2))) //거리가 반지름의 길이보다 작으면(원 안에 있는 점이면)
                 {
-                    color = Color.YELLOW
+                    color = Color.parseColor("#FFF6D7")
                 }
 
-                if(distance1 <= (radius.pow(2)) && distance3 <= (radius.pow(2)))
-                {
-                    color = Color.BLUE
+                if (distance1 <= (radius.pow(2)) && distance3 <= (radius.pow(2))) {
+                    color = Color.parseColor("#FFACAC")
                 }
 
-                bitmap.setPixel(i,j,color)
+                bitmap.setPixel(i, j, color)
             }
         }
 
-        val drawable = BitmapDrawable(Resources.getSystem(), bitmap)
-        return drawable
+        return BitmapDrawable(Resources.getSystem(), bitmap)
     }
 
     init {
