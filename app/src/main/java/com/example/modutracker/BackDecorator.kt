@@ -31,16 +31,26 @@ class BackDecorator (context : Activity, currentDay: CalendarDay) : DayViewDecor
     }
 
     fun EmotionImage() : Drawable{
+        //이미지 크기
         val width = 256
         val height = 256
-        val bitmap : Bitmap = Bitmap.createBitmap(width, height, Bitmap.Config.RGB_565)
+
+        val bitmap : Bitmap = Bitmap.createBitmap(width, height, Bitmap.Config.ARGB_8888)
 
         for(i in 0 until width){
             for(j in 0 until height){
+                //그림 크기
+                val imgWidth = 216.0
+                val imgHeight = 216.0
+
+                //반지름
+                val radius = sqrt(imgWidth.pow(2) + imgHeight.pow(2)) / 4
+
+                //원
                 val sideX = (width/2 - 1 - i).toDouble()
                 val sideY = (height/2 - 1 - j).toDouble()
                 val distance = sideX.pow(2) + sideY.pow(2) //원의 중심과 점 사이의 거리의 제곱
-                val radius = (width / 2).toDouble() - 20
+                //val radius = (width / 2).toDouble() - 20
                 var color = 0
                 if(distance <= (radius.pow(2))) //거리가 반지름의 길이보다 작으면(원 안에 있는 점이면)
                 {
