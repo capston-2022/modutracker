@@ -11,6 +11,7 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.modutracker.databinding.FragmentMainBinding
 import com.example.modutracker.dialog.AnalyzeDialog
 import kotlinx.android.synthetic.main.fragment_main.*
+import kotlinx.android.synthetic.main.item_todaydiary.*
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers.IO
 import kotlinx.coroutines.Dispatchers.Main
@@ -26,9 +27,12 @@ import java.text.SimpleDateFormat
 class DiaryFragment(private var jwt : String):Fragment() {
     private var _binding : FragmentMainBinding? = null
     private val binding get() = _binding!!
+    private lateinit var sentiment : String
 
     //일기 조회 받아올 리스트
     val diaryData = mutableListOf<TodayData>()
+
+    val emotionData = mutableListOf<EmotionData>()
 
     override fun onCreateView(
 
@@ -61,7 +65,7 @@ class DiaryFragment(private var jwt : String):Fragment() {
         //감정 분석 버튼
         btnAnalyze.setOnClickListener{
             var diary = textdiary?.text.toString()
-
+            var emotionIdx = 0
             //데이터 초기화
             diaryData.clear()
 
@@ -71,15 +75,19 @@ class DiaryFragment(private var jwt : String):Fragment() {
                         AnalyzeEmotion(diary)
                     }.await()
 
-                    SetEmotionColor();
-                    //Dialog
+                    CoroutineScope(IO).async {
+                        emotionIdx = SetEmotionColor()
+                    }.await()
 
+
+                    //Dialog
                     val dlg = AnalyzeDialog(requireContext())
                     dlg.setOnOKClickedListener {
                         CoroutineScope(Main).launch {
                             CoroutineScope(IO).async {
-                                AddDiary(jwt)
+                                AddDiary(jwt, emotionIdx)
                                 textdiary.text.clear()
+
                             }.await()
 
                             CoroutineScope(IO).async {
@@ -120,22 +128,35 @@ class DiaryFragment(private var jwt : String):Fragment() {
         val response : Response = client.newCall(request).execute()
 
         var jsonObject = JSONObject(response.body?.string())
-        var sentiment = jsonObject.getJSONObject("document").get("sentiment") as String
-        var neutral = jsonObject.getJSONObject("document").getJSONObject("confidence").get("neutral") as Double
-        var positive = jsonObject.getJSONObject("document").getJSONObject("confidence").get("positive") as Double
-        var negative = jsonObject.getJSONObject("document").getJSONObject("confidence").get("negative") as Double
+        var document = jsonObject.getJSONObject("document")
+        var sentences = jsonObject.getJSONArray("sentences")
 
-        binding.textText.text = sentiment
+        //데이터 초기화
+        emotionData.clear()
+
+        for (i in 0 until sentences.length()){
+            var entry : JSONObject = sentences.getJSONObject(i)
+            var tmp = EmotionData(
+                entry.get("sentiment") as String,
+                entry.getJSONObject("confidence").get("negative") as Double,
+                entry.getJSONObject("confidence").get("neutral") as Double,
+                entry.getJSONObject("confidence").get("positive") as Double
+            )
+            emotionData.add(tmp)
+        }
+
+        sentiment = document.get("sentiment") as String
+        //var degree = document.getJSONObject("confidence").get(sentiment) as Double
 
     }
 
     //일기 데이터베이스에 입력
-    fun AddDiary(jwt : String){
+    fun AddDiary(jwt : String, emotionIdx : Int){
         val url = "http://modutracker.shop/diary"
 
         var formbody : RequestBody = FormBody.Builder()
             .add("content", editText_diary.text.toString())
-            .add("emotionidx", "1")
+            .add("emotionidx", emotionIdx.toString())
             .build()
 
         val request = Request.Builder()
@@ -193,8 +214,35 @@ class DiaryFragment(private var jwt : String):Fragment() {
 
     }
 
-    private fun SetEmotionColor() {
+    //감정 색 지정
+    private fun SetEmotionColor() : Int{
+        var countNeg = 0
+        var countPos = 0
+        var countNeu = 0
 
+        var emotionIdx = 0
+        for (i in 0 until emotionData.size){
+            when(emotionData[i].sentiment) {
+                "negative" -> countNeg++
+                "positive" -> countPos++
+                "neutral" -> countNeu++
+            }
+        }
+
+        if(countNeg - countPos <=  1 && countNeg - countPos >= -1 && countNeg != 0 && countPos != 0){
+            emotionIdx = 4
+        }
+        else{
+            emotionIdx = when(sentiment) {
+                "positive" -> 1
+                "neutral" -> 2
+                "negative" -> 3
+                else -> 0
+            }
+        }
+        Log.d("감정분석", emotionIdx.toString())
+
+        return emotionIdx
     }
 
     override fun onDestroyView() {

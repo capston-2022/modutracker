@@ -92,6 +92,7 @@ class BackDecorator (context : Activity, currentDay: CalendarDay) : DayViewDecor
                 if (distance3 <= (radius.pow(2))) //거리가 반지름의 길이보다 작으면(원 안에 있는 점이면)
                 {
                     color = Color.parseColor("#FFF6D7")
+                    //color = Color.BLUE
                 }
 
                 if (distance1 <= (radius.pow(2)) && distance3 <= (radius.pow(2))) {
