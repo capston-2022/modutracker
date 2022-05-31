@@ -34,6 +34,7 @@ class DiaryFragment(private var jwt : String):Fragment() {
 
     val emotionData = mutableListOf<EmotionData>()
 
+
     override fun onCreateView(
 
         inflater: LayoutInflater, container: ViewGroup?,
@@ -82,10 +83,10 @@ class DiaryFragment(private var jwt : String):Fragment() {
 
                     //Dialog
                     val dlg = AnalyzeDialog(requireContext())
-                    dlg.setOnOKClickedListener {
+                    dlg.setOnOKClickedListener { content ->
                         CoroutineScope(Main).launch {
                             CoroutineScope(IO).async {
-                                AddDiary(jwt, emotionIdx)
+                                AddDiary(jwt, content.toInt())
                                 textdiary.text.clear()
 
                             }.await()
@@ -97,7 +98,7 @@ class DiaryFragment(private var jwt : String):Fragment() {
                             initRecyclerView()
                         }
                     }
-                    dlg.start("")
+                    dlg.start(emotionIdx)
                 }
             }
         }
@@ -130,6 +131,8 @@ class DiaryFragment(private var jwt : String):Fragment() {
         var jsonObject = JSONObject(response.body?.string())
         var document = jsonObject.getJSONObject("document")
         var sentences = jsonObject.getJSONArray("sentences")
+
+        print(jsonObject)
 
         //데이터 초기화
         emotionData.clear()
@@ -229,7 +232,7 @@ class DiaryFragment(private var jwt : String):Fragment() {
             }
         }
 
-        if(countNeg - countPos <=  1 && countNeg - countPos >= -1 && countNeg != 0 && countPos != 0){
+        if(sentiment == "neutral" && countNeg - countPos <=  1 && countNeg - countPos >= -1 && countNeg != 0 && countPos != 0){
             emotionIdx = 4
         }
         else{
