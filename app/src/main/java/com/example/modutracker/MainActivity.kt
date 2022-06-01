@@ -33,7 +33,7 @@ class MainActivity : AppCompatActivity() {
          */
 
 //viewPager
-        val list= listOf(CalendarFragment(),DiaryFragment(jwt.toString()),SettingFragment())
+        val list= listOf(CalendarFragment(jwt.toString()),DiaryFragment(jwt.toString()),SettingFragment())
 
         val pagerAdapter=FragmentPagerAdapter(list,this)
 

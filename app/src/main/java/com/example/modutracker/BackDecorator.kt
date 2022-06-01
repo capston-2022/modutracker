@@ -8,6 +8,7 @@ import android.graphics.Bitmap
 import android.graphics.Color
 import android.graphics.drawable.BitmapDrawable
 import android.graphics.drawable.Drawable
+import android.util.Log
 import androidx.core.content.ContextCompat
 import com.prolificinteractive.materialcalendarview.CalendarDay
 import com.prolificinteractive.materialcalendarview.DayViewDecorator
@@ -16,15 +17,19 @@ import kotlin.math.pow
 import kotlin.math.sqrt
 
 //날짜 뒤에 이미지 삽입
-class BackDecorator (context : Activity, currentDay: CalendarDay) : DayViewDecorator {
+class BackDecorator (context : Activity, currentDay: CalendarData) : DayViewDecorator {
+    val color = listOf<ColorData>(ColorData("#FFEDAC","기분좋은"),ColorData("#BBF1C5","평범한"),ColorData("#AFE6E9","우울한"),ColorData("#C2C2C2","뒤죽박죽한") )
     private var drawable: Drawable = context?.getDrawable(R.drawable.ic_baseline_favorite_24)!!
-    private var myDay = currentDay
+    private var myDay = currentDay.date
+    private var colorIdx = currentDay.emotion.toString()
+    val colorList = mutableListOf<String>()
     override fun shouldDecorate(day: CalendarDay): Boolean {
         return day == myDay
     }
 
     override fun decorate(view: DayViewFacade) {
        //view.setSelectionDrawable(drawable!!)
+        setColor()
         val image = EmotionImage()
         view.setBackgroundDrawable(image)
     }
@@ -55,7 +60,7 @@ class BackDecorator (context : Activity, currentDay: CalendarDay) : DayViewDecor
                 var color = 0
                 if (distance1 <= (radius.pow(2))) //거리가 반지름의 길이보다 작으면(원 안에 있는 점이면)
                 {
-                    color = Color.parseColor("#FFACAC")
+                    color = Color.parseColor(colorList[0])
                 }
 
                 //원2
@@ -67,7 +72,7 @@ class BackDecorator (context : Activity, currentDay: CalendarDay) : DayViewDecor
                 val distance2 = sideX2.pow(2) + sideY2.pow(2) //원의 중심과 점 사이의 거리의 제곱
                 if (distance2 <= (radius.pow(2))) //거리가 반지름의 길이보다 작으면(원 안에 있는 점이면)
                 {
-                    color = Color.parseColor("#FCEDB7")
+                    color = Color.parseColor(colorList[1])
                 }
 
                 //원4
@@ -79,7 +84,7 @@ class BackDecorator (context : Activity, currentDay: CalendarDay) : DayViewDecor
                 val distance4 = sideX4.pow(2) + sideY4.pow(2) //원의 중심과 점 사이의 거리의 제곱
                 if (distance4 <= (radius.pow(2))) //거리가 반지름의 길이보다 작으면(원 안에 있는 점이면)
                 {
-                    color = Color.parseColor("#DBE7FD")
+                    color = Color.parseColor(colorList[2])
                 }
 
                 //원3
@@ -91,12 +96,12 @@ class BackDecorator (context : Activity, currentDay: CalendarDay) : DayViewDecor
                 val distance3 = sideX3.pow(2) + sideY3.pow(2) //원의 중심과 점 사이의 거리의 제곱
                 if (distance3 <= (radius.pow(2))) //거리가 반지름의 길이보다 작으면(원 안에 있는 점이면)
                 {
-                    color = Color.parseColor("#FFF6D7")
+                    color = Color.parseColor(colorList[3])
                     //color = Color.BLUE
                 }
 
                 if (distance1 <= (radius.pow(2)) && distance3 <= (radius.pow(2))) {
-                    color = Color.parseColor("#FFACAC")
+                    color = Color.parseColor(colorList[0])
                 }
 
                 bitmap.setPixel(i, j, color)
@@ -106,6 +111,40 @@ class BackDecorator (context : Activity, currentDay: CalendarDay) : DayViewDecor
         return BitmapDrawable(Resources.getSystem(), bitmap)
     }
 
+    fun setColor() {
+        when(colorIdx.length) {
+            4 ->{
+                colorList.add(color[colorIdx[0].toString().toInt()-1].code)
+                colorList.add(color[colorIdx[1].toString().toInt()-1].code)
+                colorList.add(color[colorIdx[2].toString().toInt()-1].code)
+                colorList.add(color[colorIdx[3].toString().toInt()-1].code)
+            }
+            3 ->{
+                colorList.add(color[colorIdx[0].toString().toInt()-1].code)
+                colorList.add(color[colorIdx[0].toString().toInt()-1].code)
+                colorList.add(color[colorIdx[1].toString().toInt()-1].code)
+                colorList.add(color[colorIdx[2].toString().toInt()-1].code)
+            }
+            2 ->{
+                colorList.add(color[colorIdx[0].toString().toInt()-1].code)
+                colorList.add(color[colorIdx[0].toString().toInt()-1].code)
+                colorList.add(color[colorIdx[1].toString().toInt()-1].code)
+                colorList.add(color[colorIdx[1].toString().toInt()-1].code)
+            }
+            1 ->{
+                colorList.add(color[colorIdx[0].toString().toInt()-1].code)
+                colorList.add(color[colorIdx[0].toString().toInt()-1].code)
+                colorList.add(color[colorIdx[0].toString().toInt()-1].code)
+                colorList.add(color[colorIdx[0].toString().toInt()-1].code)
+            }
+            else ->{
+                colorList.add(color[colorIdx[0].toString().toInt()-1].code)
+                colorList.add(color[colorIdx[1].toString().toInt()-1].code)
+                colorList.add(color[colorIdx[2].toString().toInt()-1].code)
+                colorList.add(color[colorIdx[3].toString().toInt()-1].code)
+            }
+        }
+    }
     init {
         // You can set background for Decorator via drawable here
         drawable = ContextCompat.getDrawable(context!!, R.drawable.ic_baseline_favorite_24)!!
