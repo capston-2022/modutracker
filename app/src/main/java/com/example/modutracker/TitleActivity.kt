@@ -13,6 +13,8 @@ import kotlinx.android.synthetic.main.activity_title.*
 import okhttp3.*
 import org.json.JSONObject
 import java.io.IOException
+import com.kakao.sdk.common.util.Utility
+
 
 class TitleActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -20,6 +22,9 @@ class TitleActivity : AppCompatActivity() {
         setContentView(R.layout.activity_title)
 
         //kakao 로그인
+//        var keyHash = Utility.getKeyHash(this)
+//
+//        Log.d("Hash", keyHash)
         val callback: (OAuthToken?, Throwable?) -> Unit = { token, error ->
             if (error != null) {
                 when {
