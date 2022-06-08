@@ -22,9 +22,9 @@ class TitleActivity : AppCompatActivity() {
         setContentView(R.layout.activity_title)
 
         //kakao 로그인
-//        var keyHash = Utility.getKeyHash(this)
-//
-//        Log.d("Hash", keyHash)
+        var keyHash = Utility.getKeyHash(this)
+
+        Log.d("Hash", keyHash)
         val callback: (OAuthToken?, Throwable?) -> Unit = { token, error ->
             if (error != null) {
                 when {

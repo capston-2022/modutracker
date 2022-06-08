@@ -7,7 +7,7 @@
     android:background="#F4F2EA"
     android:backgroundTint="#F4F2EA"
     android:orientation="vertical"
-    tools:context=".MainActivity">
+    >
 
     <ImageView
         android:id="@+id/imageView"
@@ -15,12 +15,13 @@
         android:layout_height="80dp"
 
         android:layout_marginTop="132dp"
+        android:layout_marginBottom="8dp"
         android:src="@drawable/icon"
         app:layout_constraintBottom_toTopOf="@+id/nickname"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        tools:ignore="DuplicateIds,MissingConstraints" />
+        />
 
     <TextView
         android:id="@+id/nickname"
@@ -30,13 +31,14 @@
 
         android:text="Jerry"
         android:textColor="#603813"
-        android:textSize="25dp"
 
+        android:textSize="25dp"
         app:layout_constraintBottom_toTopOf="@+id/gorup_code"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.498"
         app:layout_constraintStart_toStartOf="parent"
-        tools:ignore="MissingConstraints" />
+        app:layout_constraintTop_toBottomOf="@+id/imageView"
+        />
 
     <TextView
         android:id="@+id/gorup_code"
@@ -44,17 +46,21 @@
         android:layout_height="wrap_content"
         android:layout_gravity="center_horizontal"
 
+        android:layout_marginTop="8dp"
+        android:layout_marginBottom="75dp"
+
         android:text="goup_code"
         android:textColor="#E4B3B3"
-
         android:textSize="22dp"
+        app:layout_constraintBottom_toTopOf="@+id/linearLayout"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.498"
         app:layout_constraintStart_toStartOf="parent"
-        tools:ignore="MissingConstraints"
-        tools:layout_editor_absoluteY="273dp" />
+        app:layout_constraintTop_toBottomOf="@+id/nickname"
+        />
 
     <LinearLayout
+        android:id="@+id/linearLayout"
         android:layout_width="match_parent"
         android:layout_height="371dp"
         android:orientation="vertical"
@@ -66,18 +72,18 @@
         app:layout_constraintVertical_bias="1.0">
 
         <Button
-            android:id="@+id/btn_gorup"
+            android:id="@+id/btn_group"
+            style="@style/Widget.AppCompat.Button.Borderless"
             android:layout_width="match_parent"
+
+
             android:layout_height="wrap_content"
-
-
             android:background="@drawable/edge"
-            android:text="    GROUP"
 
+            android:text="    그룹"
             android:textAlignment="viewStart"
-            android:textColor="#000000"
 
-            style="@style/Widget.AppCompat.Button.Borderless"/>
+            android:textColor="#000000" />
 
         <Button
             android:id="@+id/btn_theme"
@@ -86,24 +92,24 @@
             android:layout_height="wrap_content"
 
             android:background="@drawable/edge"
-            android:text="    THEME"
+            android:text="    테마"
 
             android:textAlignment="viewStart"
             android:textColor="#000000" />
 
         <Button
             android:id="@+id/btn_push"
+            style="@style/Widget.AppCompat.Button.Borderless"
             android:layout_width="match_parent"
+
+
             android:layout_height="wrap_content"
-
-
             android:background="@drawable/edge"
-            android:text="    PUSH"
 
+            android:text="    알림 설정"
             android:textAlignment="viewStart"
-            android:textColor="#000000"
 
-            style="@style/Widget.AppCompat.Button.Borderless"/>
+            android:textColor="#000000" />
 
         <Button
             android:id="@+id/btn_secession"
@@ -112,11 +118,10 @@
             android:layout_height="wrap_content"
 
             android:background="@drawable/edge"
-            android:text="    SECESSION"
+            android:text="    회원 탈퇴"
 
             android:textAlignment="viewStart"
             android:textColor="#000000" />
-
 
 
     </LinearLayout>
