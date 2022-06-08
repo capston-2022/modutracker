@@ -18,7 +18,12 @@ import kotlin.math.sqrt
 
 //날짜 뒤에 이미지 삽입
 class BackDecorator (context : Activity, currentDay: CalendarData) : DayViewDecorator {
-    val color = listOf<ColorData>(ColorData("#FFEDAC","기분좋은"),ColorData("#BBF1C5","평범한"),ColorData("#AFE6E9","우울한"),ColorData("#C2C2C2","뒤죽박죽한") )
+    val color = listOf<ColorData>(ColorData("#FFEDAC","기분좋은"),
+        ColorData("#BBF1C5","평범한"),
+        ColorData("#AFE6E9","우울한"),
+        ColorData("#C2C2C2","뒤죽박죽한"),
+        ColorData("#FE7878","화난"),
+        ColorData("#D4CEFA","설레는") )
     private var drawable: Drawable = context?.getDrawable(R.drawable.ic_baseline_favorite_24)!!
     private var myDay = currentDay.date
     private var colorIdx = currentDay.emotion.toString()

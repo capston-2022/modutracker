@@ -1,5 +1,6 @@
 package com.example.modutracker
 import Data.TodayData
+import android.annotation.SuppressLint
 import android.app.Activity
 import android.os.Bundle
 import android.util.Log
@@ -20,9 +21,7 @@ import kotlinx.coroutines.Dispatchers.IO
 import kotlinx.coroutines.Dispatchers.Main
 import kotlinx.coroutines.async
 import kotlinx.coroutines.launch
-import okhttp3.OkHttpClient
-import okhttp3.Request
-import okhttp3.Response
+import okhttp3.*
 import org.json.JSONArray
 import org.json.JSONObject
 import java.io.IOException
@@ -33,6 +32,7 @@ class CalendarFragment(private var jwt : String):Fragment() {
     private val binding get() = _binding!!
 
     val calData = mutableListOf<CalendarData>()
+    val diaryData = mutableListOf<TodayData>()
 
     override fun onCreateView(
 
@@ -42,12 +42,46 @@ class CalendarFragment(private var jwt : String):Fragment() {
 
         _binding = FragmentCalendarBinding.inflate(inflater, container, false)
 
+        binding.calendar.setOnDateChangedListener { widget, date, selected ->
+            binding.today.text = (date.month + 1).toString() + "월 " + date.day.toString() + "일"
+            CoroutineScope(Main).launch {
+                CoroutineScope(IO).async {
+                    val year = date.year.toString()
+                    var month = ""
+                    var day = ""
+                    if (date.month + 1 >= 10) {
+                        month = (date.month + 1).toString()
+                    }
+                    else{
+                        month = "0" + (date.month + 1).toString()
+                    }
+                    if (date.day >= 10) {
+                        day = date.day.toString()
+                    }
+                    else{
+                        day = "0" + date.day.toString()
+                    }
+
+                    val dateStr = "$year-$month-$day"
+                    diaryData.clear()
+                    getDiaryData(jwt, dateStr)
+                }.await()
+                initRecyclerView()
+            }
+
+
+        }
+
+
+
         CoroutineScope(Main).launch {
             CoroutineScope(IO).async {
                 getMoodTracker(jwt)
             }.await()
             calendar()
         }
+
+
         return binding.root
 
     }
@@ -85,26 +119,6 @@ class CalendarFragment(private var jwt : String):Fragment() {
         lateinit var widget: MaterialCalendarView
         val activity = getActivity() as Activity
         widget = binding.calendar as MaterialCalendarView
-
-        // val mydate=CalendarDay.from(2022,  5,18) // year, month, date
-
-        //val backDecorator = BackDecorator(activity,mydate)
-
-        //뒤에 배경 넣을 날짜 리스트(1달 이전의 날짜에 표시 됨.. 이건 수정 해야할 것 같아요..)
-//        val calList = ArrayList<CalendarDay>()
-//        for (data in calData) {
-//            val year = data.date.substring(0,4).toInt()
-//            val month = data.date.substring(5,7).toInt() - 1
-//            val day = data.date.substring(8,10).toInt()
-//            calList.add(CalendarDay.from(year, month, day))
-//        }
-//        calList.add(CalendarDay.from(2022, 4, 2))
-//        calList.add(CalendarDay.from(2022, 4, 11))
-//        calList.add(CalendarDay.from(2022, 4, 12))
-//        calList.add(CalendarDay.from(2022, 4, 13))
-
-
-
 
         val calGroup = calData.groupBy{it.date}
         val calList = mutableListOf<CalendarData>()
@@ -159,6 +173,50 @@ class CalendarFragment(private var jwt : String):Fragment() {
             calData.add(tmp)
         }
         Log.d("데이터 조회", jsonArray.toString())
+    }
+
+    //일기 조회
+    private fun getDiaryData(jwt : String, date : String){
+
+        diaryData.clear()
+
+        val url = "http://modutracker.shop/diary/inquire"
+
+        var formbody : RequestBody = FormBody.Builder()
+            .add("date",date)
+            .build()
+
+        val request = Request.Builder()
+            .url(url)
+            .addHeader("Authorization",jwt)
+            .post(formbody)
+            .build()
+
+        val client = OkHttpClient()
+
+        val response : Response = client.newCall(request).execute()
+
+        var jsonObject = JSONObject(response.body?.string())
+
+        var jsonArray = jsonObject.getJSONArray("data")
+        for(i in 0 until jsonArray.length()){
+            val entry : JSONObject = jsonArray.getJSONObject(i)
+            var tmp = TodayData(
+                entry.get("name") as String,
+                entry.get("emotionidx") as Int,
+                entry.get("content") as String
+            )
+            diaryData.add(tmp)
+        }
+        Log.d("데이터 조회", jsonArray.toString())
+    }
+
+    //리사이클러뷰에 어댑터 연결
+    private fun initRecyclerView(){
+        val adapter = CalendarDiaryAdapter()
+        adapter.datalist = diaryData
+        binding.diaryRecyclerview.adapter = adapter
+        binding.diaryRecyclerview.layoutManager = LinearLayoutManager(activity)
     }
 
     override fun onDestroyView() {

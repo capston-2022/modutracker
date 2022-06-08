@@ -5,10 +5,11 @@ import android.graphics.Color
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
+import com.example.modutracker.databinding.ItemCalendardiaryBinding
 import com.example.modutracker.databinding.ItemTodaydiaryBinding
 
-class TodayDiaryAdapter :
-RecyclerView.Adapter<TodayDiaryAdapter.ViewHolder>() {
+class CalendarDiaryAdapter :
+    RecyclerView.Adapter<CalendarDiaryAdapter.ViewHolder>() {
 
     var datalist = mutableListOf<TodayData>()
     val color = listOf<ColorData>(ColorData("#FFEDAC","기분좋은"),
@@ -18,7 +19,7 @@ RecyclerView.Adapter<TodayDiaryAdapter.ViewHolder>() {
         ColorData("#FE7878","화난"),
         ColorData("#D4CEFA","설레는") )
 
-    inner class ViewHolder(private val binding : ItemTodaydiaryBinding) : RecyclerView.ViewHolder(binding.root) {
+    inner class ViewHolder(private val binding : ItemCalendardiaryBinding) : RecyclerView.ViewHolder(binding.root) {
         fun bind(diaryData : TodayData){
             binding.nameText.text = diaryData.name
             var emotionidx = diaryData.emotionidx
@@ -31,7 +32,7 @@ RecyclerView.Adapter<TodayDiaryAdapter.ViewHolder>() {
         return datalist.size
     }
 
-    override fun onBindViewHolder(holder: TodayDiaryAdapter.ViewHolder, position: Int) {
+    override fun onBindViewHolder(holder: CalendarDiaryAdapter.ViewHolder, position: Int) {
         holder.bind(datalist[position])
     }
 
@@ -39,8 +40,8 @@ RecyclerView.Adapter<TodayDiaryAdapter.ViewHolder>() {
     override fun onCreateViewHolder(
         parent: ViewGroup,
         viewType: Int
-    ): TodayDiaryAdapter.ViewHolder {
-        val binding = ItemTodaydiaryBinding.inflate(LayoutInflater.from(parent.context),parent, false)
+    ): CalendarDiaryAdapter.ViewHolder {
+        val binding = ItemCalendardiaryBinding.inflate(LayoutInflater.from(parent.context),parent, false)
         return ViewHolder(binding)
     }
 }

@@ -23,6 +23,7 @@ import okhttp3.RequestBody.Companion.toRequestBody
 import org.json.JSONObject
 import java.io.IOException
 import java.text.SimpleDateFormat
+import java.time.LocalDate
 
 class DiaryFragment(private var jwt : String):Fragment() {
     private var _binding : FragmentMainBinding? = null
@@ -177,11 +178,20 @@ class DiaryFragment(private var jwt : String):Fragment() {
 
     //일기 조회
     private fun getDiaryData(jwt : String){
-        val url = "http://modutracker.shop/diary"
+        val url = "http://modutracker.shop/diary/inquire"
+
+        //오늘 날짜
+        val currentTime = System.currentTimeMillis()
+        val dataformat = SimpleDateFormat("yyyy-MM-dd")
+
+        var formbody : RequestBody = FormBody.Builder()
+            .add("date", dataformat.format(currentTime))
+            .build()
 
         val request = Request.Builder()
             .url(url)
             .addHeader("Authorization",jwt)
+            .post(formbody)
             .build()
 
         val client = OkHttpClient()

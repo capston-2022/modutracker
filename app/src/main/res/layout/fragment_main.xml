@@ -16,7 +16,7 @@
         android:layout_height="65dp"
         android:gravity="center"
         android:text="날짜"
-        android:textColor="@color/black"
+        android:textColor="#603813"
         android:textSize="20sp" />
 
     //하단 고정
@@ -31,28 +31,35 @@
             android:layout_height="match_parent"
             android:orientation="vertical" >
 
-            <EditText
-                android:id="@+id/editText_diary"
+            <FrameLayout
                 android:layout_width="match_parent"
-                android:layout_height="150dp"
-                android:gravity="start|top"
-                android:lines="20"
-                android:hint="일기 내용을 입력하세요."
-                android:inputType="textMultiLine"
-                android:privateImeOptions="defaultInputmode=korean"/>
+                android:layout_height="match_parent">
 
-            <Button
-                android:id="@+id/btn_analyze"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:text="감정분석" />
+                <EditText
+                    android:id="@+id/editText_diary"
+                    android:layout_width="match_parent"
+                    android:layout_height="150dp"
+                    android:gravity="start|top"
+                    android:hint="일기 내용을 입력하세요."
+                    android:padding="10dp"
+                    android:layout_marginHorizontal="10dp"
+                    android:inputType="textMultiLine"
+                    android:lines="20"
+                    android:textColor="#603813"
+                    android:privateImeOptions="defaultInputmode=korean"
+                    android:background="@drawable/diaryitem_layout"/>
 
-            <TextView
-                android:id="@+id/text_text"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:text=""
-                android:textSize="20dp"/>
+                <ImageButton
+                    android:id="@+id/btn_analyze"
+                    android:layout_width="70dp"
+                    android:layout_height="50dp"
+                    android:layout_gravity="bottom|right"
+                    android:background="@android:color/transparent"
+                    android:padding="10dp"
+                    android:scaleType="fitCenter"
+                    android:src="@drawable/send_message"
+                    app:tint="#987B60" />
+            </FrameLayout>
 
             <androidx.recyclerview.widget.RecyclerView
                 android:id="@+id/diary_recyclerview"
