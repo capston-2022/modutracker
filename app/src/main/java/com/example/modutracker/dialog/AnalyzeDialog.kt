@@ -41,8 +41,9 @@ class AnalyzeDialog(content : Context) {
         val emtList = listOf<String>("기분좋은","평범한","우울한","뒤죽박죽한","화난","설레는")
         spinner = dlg.findViewById(R.id.spinner)
         spinner.adapter = ArrayAdapter(dlg.context, android.R.layout.simple_spinner_item, emtList)
+        spinner.setSelection(content - 1)
 
-        var selected = 0
+        var selected = content - 1
         spinner.onItemSelectedListener = object : AdapterView.OnItemSelectedListener {
             override fun onItemSelected(p0: AdapterView<*>?, p1: View?, position: Int, p3: Long) {
                 selected = position + 1

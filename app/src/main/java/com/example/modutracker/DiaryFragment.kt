@@ -48,12 +48,24 @@ class DiaryFragment(private var jwt : String):Fragment() {
         val btnAnalyze = binding.btnAnalyze
         val textDate = binding.textDate
 
-        Log.d("받아온 jwt값 ", jwt )
-
         //날짜
         val now = System.currentTimeMillis()
         val date = SimpleDateFormat("MMMM dd").format(now)
         textDate.text = date
+
+        //오늘 일기 안썼으면 textbox 보이기
+        CoroutineScope(Main).launch {
+            var result = CoroutineScope(IO).async {
+                CheckToday()
+            }.await()
+            if (result == 0){
+                binding.textbox.visibility=View.VISIBLE
+            }
+            else{
+                binding.textbox.visibility=View.GONE
+            }
+            initRecyclerView()
+        }
 
         //비동기 처리
         CoroutineScope(Main).launch {
@@ -68,34 +80,39 @@ class DiaryFragment(private var jwt : String):Fragment() {
         btnAnalyze.setOnClickListener{
             var diary = textdiary?.text.toString()
             var emotionIdx = 0
-            //데이터 초기화
-            diaryData.clear()
-
             if(diary != "") {
+                //감정 분석
                 CoroutineScope(Main).launch {
                     CoroutineScope(IO).async {
                         AnalyzeEmotion(diary)
                     }.await()
-
                     CoroutineScope(IO).async {
                         emotionIdx = SetEmotionColor()
                     }.await()
-
-
                     //Dialog
                     val dlg = AnalyzeDialog(requireContext())
+                    //확인 버튼
                     dlg.setOnOKClickedListener { content ->
                         CoroutineScope(Main).launch {
+                            //다이어리 데이터 추가
                             CoroutineScope(IO).async {
                                 AddDiary(jwt, content.toInt())
                                 textdiary.text.clear()
-
                             }.await()
-
+                            //오늘 다이어리 썼는지 확인
+                            var result = CoroutineScope(IO).async {
+                                CheckToday()
+                            }.await()
+                            if (result == 0){
+                                binding.textbox.visibility=View.VISIBLE
+                            }
+                            else{
+                                binding.textbox.visibility=View.GONE
+                            }
+                            //다이어리 데이터 조회
                             CoroutineScope(IO).async {
                                 getDiaryData(jwt)
                             }.await()
-
                             initRecyclerView()
                         }
                     }
@@ -178,6 +195,9 @@ class DiaryFragment(private var jwt : String):Fragment() {
 
     //일기 조회
     private fun getDiaryData(jwt : String){
+
+        diaryData.clear()
+
         val url = "http://modutracker.shop/diary/inquire"
 
         //오늘 날짜
@@ -256,6 +276,26 @@ class DiaryFragment(private var jwt : String):Fragment() {
         Log.d("감정분석", emotionIdx.toString())
 
         return emotionIdx
+    }
+
+    //오늘 일기 썼는지 조회
+    private fun CheckToday() : Int {
+        val url = "https://modutracker.shop/diary/check"
+
+        val request = Request.Builder()
+            .url(url)
+            .addHeader("Authorization",jwt)
+            .build()
+
+        val client = OkHttpClient()
+
+        val response : Response = client.newCall(request).execute()
+
+        var jsonObject = JSONObject(response.body?.string())
+
+        var result = jsonObject.getJSONArray("data").getJSONObject(0).getInt("result")
+
+        return result
     }
 
     override fun onDestroyView() {

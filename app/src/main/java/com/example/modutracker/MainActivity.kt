@@ -24,16 +24,8 @@ class MainActivity : AppCompatActivity() {
         var getIntent = getIntent()
         var jwt = getIntent.getStringExtra("jwt")
 
-        //Fragment에 Bundle로 전달
-        /*
-        val bundle = Bundle()
-        bundle.putString("jwt", jwt)
-        DiaryFragment(jwt.toString()).arguments = bundle
-
-         */
-
 //viewPager
-        val list= listOf(CalendarFragment(jwt.toString()),DiaryFragment(jwt.toString()),SettingFragment())
+        val list= listOf(CalendarFragment(jwt.toString()),DiaryFragment(jwt.toString()),SettingFragment(jwt.toString()))
 
         val pagerAdapter=FragmentPagerAdapter(list,this)
 
@@ -44,7 +36,6 @@ class MainActivity : AppCompatActivity() {
             tab.text=titles.get(position)
         }.attach()
     }
-
 }
 
 

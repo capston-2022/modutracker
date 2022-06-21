@@ -2,12 +2,21 @@ package com.example.modutracker
 import Data.TodayData
 import android.annotation.SuppressLint
 import android.app.Activity
+import android.graphics.drawable.AnimationDrawable
+import android.graphics.drawable.ColorDrawable
 import android.os.Bundle
+import android.os.Handler
+import android.os.Looper
+import android.os.Message
 import android.util.Log
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.ImageView
+import androidx.appcompat.app.AppCompatDialog
+import androidx.fragment.app.FragmentManager
+import androidx.fragment.app.FragmentTransaction
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.calendarview.MaxDecorator
 import com.example.calendarview.SaturdayDecorateor
@@ -30,6 +39,7 @@ import java.util.*
 class CalendarFragment(private var jwt : String):Fragment() {
     private var _binding : FragmentCalendarBinding? = null
     private val binding get() = _binding!!
+    private lateinit var progressDialog : AppCompatDialog
 
     val calData = mutableListOf<CalendarData>()
     val diaryData = mutableListOf<TodayData>()
@@ -43,6 +53,7 @@ class CalendarFragment(private var jwt : String):Fragment() {
         _binding = FragmentCalendarBinding.inflate(inflater, container, false)
 
         binding.calendar.setOnDateChangedListener { widget, date, selected ->
+            //날짜 선택 시 해당 날짜 일기 조회
             binding.today.text = (date.month + 1).toString() + "월 " + date.day.toString() + "일"
             CoroutineScope(Main).launch {
                 CoroutineScope(IO).async {
@@ -72,12 +83,26 @@ class CalendarFragment(private var jwt : String):Fragment() {
 
         }
 
+        MyHandler.progressDialog = AppCompatDialog(context)
 
+        /*
+        val handler : Handler = object : Handler(Looper.getMainLooper()) {
+            override fun handleMessage(msg: Message) {
+                if(progressDialog != null && progressDialog.isShowing){
+                    progressDialog.dismiss()
+                }
+            }
+        }
 
+         */
+
+        val handler : Handler = MyHandler()
         CoroutineScope(Main).launch {
+            handler.sendMessage(handler.obtainMessage(MyHandler.MSG_PROGRESS_ON))
             CoroutineScope(IO).async {
                 getMoodTracker(jwt)
             }.await()
+            handler.sendMessage(handler.obtainMessage(MyHandler.MSG_PROGRESS_OFF))
             calendar()
         }
 
@@ -209,6 +234,53 @@ class CalendarFragment(private var jwt : String):Fragment() {
             diaryData.add(tmp)
         }
         Log.d("데이터 조회", jsonArray.toString())
+    }
+
+    //로딩 다이얼로그
+    fun progressOn() {
+
+        progressDialog = AppCompatDialog(this.context)
+        progressDialog.setCancelable(false)
+        progressDialog.window?.setBackgroundDrawable(ColorDrawable(android.graphics.Color.TRANSPARENT))
+        progressDialog.setContentView(R.layout.dialog_loading)
+        progressDialog.show()
+        var img_loading_frame = progressDialog.findViewById<ImageView>(R.id.gifImage)
+        var frameAnim = img_loading_frame?.background as AnimationDrawable
+        img_loading_frame?.post { frameAnim.start() }
+    }
+
+    //새로고침
+    fun refresh(fragment: Fragment, fragmentManager : FragmentManager){
+        var ft : FragmentTransaction = fragmentManager.beginTransaction()
+        ft.detach(fragment).attach(fragment).commit()
+    }
+
+    class MyHandler : Handler(Looper.getMainLooper()) {
+
+        companion object {
+            const val TAG = "MyHandler"
+            const val MSG_PROGRESS_ON = 1
+            const val MSG_PROGRESS_OFF = 2
+            lateinit var progressDialog : AppCompatDialog
+        }
+        override fun handleMessage(msg: Message) {
+            when (msg.what) {
+                MSG_PROGRESS_ON -> {
+                    progressDialog.setCancelable(false)
+                    progressDialog.window?.setBackgroundDrawable(ColorDrawable(android.graphics.Color.TRANSPARENT))
+                    progressDialog.setContentView(R.layout.dialog_loading)
+                    progressDialog.show()
+                    var img_loading_frame = progressDialog.findViewById<ImageView>(R.id.gifImage)
+                    var frameAnim = img_loading_frame?.background as AnimationDrawable
+                    img_loading_frame?.post { frameAnim.start() }
+                }
+                MSG_PROGRESS_OFF -> {
+                    if(progressDialog != null && progressDialog.isShowing){
+                        progressDialog.dismiss()
+                    }
+                }
+            }
+        }
     }
 
     //리사이클러뷰에 어댑터 연결

@@ -30,6 +30,8 @@ class NotificationActivity : AppCompatActivity() {
         binding = ActivityNotificationBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
+        val jwt = intent.getStringExtra("jwt")
+
         val alarmManager = getSystemService(ALARM_SERVICE) as AlarmManager
 
         val intent = Intent(this,MyReceiver::class.java)
@@ -73,6 +75,7 @@ class NotificationActivity : AppCompatActivity() {
 
         binding.btnBack.setOnClickListener {
             val intent = Intent(this, MainActivity::class.java)
+            intent.putExtra("jwt", jwt)
             startActivity(intent)
 
 

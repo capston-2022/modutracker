@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/linearLayout"
     android:layout_width="match_parent"
-    android:layout_height="200dp"
+    android:layout_height="wrap_content"
     android:background="@drawable/diaryitem_layout"
     android:orientation="vertical"
     android:padding="10dp"
@@ -35,7 +35,7 @@
     <TextView
         android:id="@+id/content_text"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
+        android:layout_height="wrap_content"
         android:fontFamily="@font/notosanskrmedium"
         android:inputType="textMultiLine"
         android:text="일기 내용" />
